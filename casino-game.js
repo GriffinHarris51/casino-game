@@ -3,6 +3,7 @@ const prompts = require('prompts')
 
 
 let wallet
+let example = 'hi'
 const theOdds = 50
 
 function randomNumber() {
