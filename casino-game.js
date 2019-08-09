@@ -49,7 +49,7 @@ function addMoreFunds() {
 		type: 'text',
 		name: 'value',
 		message: 'Would you like to add more money to your wallet to bet?',
-		validate: (answer) => (answer === 'No' ? 'Okay sorry to see you go' : true)
+		validate: (answer) => (answer === 'no' ? 'Okay sorry to see you go' : true)
 	})		.then((response) => {
 			if (response.value === 'yes') {
 				getBalanceBeforeYouPlay()
@@ -65,7 +65,6 @@ function playAgain() {
 	}).then((answer) => {
 		if (answer.value === 'yes') {
 			getBalanceBeforeYouPlay();
-			play()
 		} else {
 			console.log('Sorry, come again')
 		}
