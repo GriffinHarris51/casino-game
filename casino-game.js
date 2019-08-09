@@ -4,13 +4,12 @@ const prompts = require('prompts')
 
 let wallet
 const theOdds = 50
-const multiplier = 2
 
 function randomNumber() {
 	return (Math.random() * 100).toFixed(0)
 }
 
-function welcomeAndPlaySlot() {
+function welcomeAndPlay() {
 	prompts({
 		type: 'text',
 		name: 'value',
@@ -24,7 +23,7 @@ function welcomeAndPlaySlot() {
 		})
 }
 
-function playSlots() {
+function play() {
 	prompts({
 		type: 'text',
 		name: 'value',
@@ -34,14 +33,27 @@ function playSlots() {
 		const number = randomNumber()
 		if (number > theOdds) {
 			wallet = wallet * 2
-			console.log('Congrats, you doubled your money', `now you have ${wallet}`)
+			console.log('Congrats, you doubled your money', `now you have $ ${wallet} dollars`)
 			playAgain()
 		} else {
 			wallet = wallet - wallet
-			console.log('Sorry, you lost', `now you have ${wallet}`)
-			playAgain()
+			console.log('Sorry, you lost', `now you have $ ${wallet} dollars`)
+			addMoreFunds()
 		}
 	})
+}
+
+function addMoreFunds() {
+	prompts({
+		type: 'text',
+		name: 'value',
+		message: 'Would you like to add more money to your wallet to bet?',
+		validate: (answer) => (answer === 'No' ? 'Okay sorry to see you go' : true)
+	})		.then((response) => {
+			if (response.value === 'yes') {
+				getBalanceBeforeYouPlay()
+			}
+		})
 }
 
 function playAgain() {
@@ -51,7 +63,8 @@ function playAgain() {
 		message: 'Would you like play again?'
 	}).then((answer) => {
 		if (answer.value === 'yes') {
-			playSlots()
+			getBalanceBeforeYouPlay();
+			play()
 		} else {
 			console.log('Sorry, come again')
 		}
@@ -67,8 +80,8 @@ function getBalanceBeforeYouPlay() {
 	}).then((result) => {
 		wallet = result.value
 		console.log(`Your wallet now has $${wallet} dollars`)
-		playSlots()
+		play()
 	})
 }
 
-welcomeAndPlaySlot()
+welcomeAndPlay()
